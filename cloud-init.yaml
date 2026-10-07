@@ -4,22 +4,13 @@ package_update: true
 
 packages:
   - apache2
-
-write_files:
-  - path: /var/www/html/index.html
-    content: |
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Cloud Services Week 7</title>
-      </head>
-      <body>
-        <h1>Cloud Services Week 7</h1>
-        <h2>Student: Mashair Jafer</h2>
-        <p>OpenTofu and cloud-init yayy we are done with the course </p>
-      </body>
-      </html>
+  - git
 
 runcmd:
+  - rm -f /var/www/html/index.html
+  - git clone https://github.com/Mishomoon/cloud-services-week7.git /tmp/week7
+  - cp /tmp/week7/index.html /var/www/html/index.html
+  - cp -r /tmp/week7/screenshots /var/www/html/
+  - cp "/tmp/week7/Cloud service (6).pdf" "/var/www/html/Cloud service (6).pdf"
   - systemctl enable apache2
-  - systemctl start apache2
+  - systemctl restart apache2
