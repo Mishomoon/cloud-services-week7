@@ -1,0 +1,25 @@
+#cloud-config
+
+package_update: true
+
+packages:
+  - apache2
+
+write_files:
+  - path: /var/www/html/index.html
+    content: |
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Cloud Services Week 7</title>
+      </head>
+      <body>
+        <h1>Cloud Services Week 7</h1>
+        <h2>Student: Mashair Jafer</h2>
+        <p>OpenTofu and cloud-init yayy we are done with the course </p>
+      </body>
+      </html>
+
+runcmd:
+  - systemctl enable apache2
+  - systemctl start apache2
