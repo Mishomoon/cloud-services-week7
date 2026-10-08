@@ -56,7 +56,7 @@ OpenTofu defines the infrastructure as code.
 
 The main workflow I used was:
 
-
+```text
 tofu init
       ↓
 tofu validate
@@ -136,6 +136,7 @@ I also used .gitignore to prevent sensitive files from being committed to GitHub
 The .gitignore includes patterns for files such as:
 *.tfstate
 *.tfstate.*
+.terraform/
 *.tfvars
 *.tfvars.json
 cloud.yaml
@@ -193,25 +194,3 @@ The Week 7 infrastructure was successfully created and rebuilt using OpenTofu.
 The final environment included the VM, network port, security group, security rules, SSH key pair and floating IP association.
 Apache successfully served the Week 7 webpage, and the final webpage test returned HTTP 200.
 The project demonstrates Infrastructure as Code using OpenTofu with OpenStack/cPouta.
-
-### Why I changed it
-
-I specifically fixed the problems in your old README:
-
-- ✅ Proper `##` headings
-- ✅ Proper code blocks
-- ✅ Proper project-file table
-- ✅ Experiments separated clearly
-- ✅ Security section separated
-- ✅ Evidence section separated
-- ✅ Reflection separated
-- ✅ Added the **real cloud-init → public GitHub → Apache** dependency
-- ✅ Removed the missing `versions.tf` because your actual `git ls-files` does **not** show it
-- ✅ Didn't invent exact timings
-- ✅ Didn't invent extra experiment results
-- ✅ Kept your real `MANUAL DRIFT TEST`
-- ✅ Kept the real HTTP 200 result
-- ✅ Kept the real destroy/rebuild result
-- ✅ Mentioned the real private/public IP behavior without putting unnecessary IP details in the README
-
-
