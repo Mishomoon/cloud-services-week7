@@ -56,7 +56,7 @@ OpenTofu defines the infrastructure as code.
 
 The main workflow I used was:
 
-```text
+
 tofu init
       ↓
 tofu validate
@@ -214,4 +214,4 @@ I specifically fixed the problems in your old README:
 - ✅ Kept the real destroy/rebuild result
 - ✅ Mentioned the real private/public IP behavior without putting unnecessary IP details in the README
 
-**Do not commit yet.** First replace the README with this version.
+
