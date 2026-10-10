@@ -8,7 +8,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cloud Services - Week 7</title>
+<title>Cloud Services - Week 7: Infrastructure as Code with OpenTofu</title>
 
 <style>
 
@@ -35,12 +35,18 @@ a {
 .hero {
     background: #29496d;
     color: white;
-    padding: 18px 6%;
+    width: 88%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 18px 0;
 }
 
 .hero-inner {
     width: 100%;
+    margin: 0;
+    padding: 0 38px;
 }
+
 
 .hero h1 {
     margin: 0;
@@ -51,6 +57,7 @@ a {
     margin: 4px 0 10px;
     font-size: 17px;
     font-weight: 400;
+    color: white;
 }
 
 .quick-links {
@@ -80,7 +87,10 @@ a {
     position: sticky;
     top: 0;
     z-index: 50;
-    width: 100%;
+
+    width: 88%;
+    max-width: 1500px;
+    margin: 0 auto;
 }
 
 .tab-button {
@@ -103,9 +113,8 @@ a {
     width: 88%;
     max-width: 1500px;
     margin: 28px auto;
-    padding: 0 2%;
+    padding: 0;
 }
-
 .section {
     background: white;
     margin-bottom: 20px;
@@ -193,20 +202,25 @@ p, li {
 }
 
 code {
-    background: #edf0f3;
+    background: #e7e7e8;
     padding: 2px 5px;
     border-radius: 4px;
 }
 
+
+
 pre {
-    background: #1f2933;
+     background: #232f3a;
     color: #f5f7fa;
     padding: 18px;
     border-radius: 7px;
     overflow-x: auto;
     line-height: 1.5;
 }
-
+pre code {
+    background: transparent;
+    color: inherit;
+}
 .compare-table {
     width: 100%;
     border-collapse: collapse;
@@ -362,6 +376,7 @@ footer {
     .slide-image-container {
         min-height: 240px;
     }
+
 }
 
 </style>
@@ -376,23 +391,31 @@ footer {
 
         <h1>Cloud Services - Week 7</h1>
 
-        <h2>Infrastructure as Code with OpenTofu</h2>
+        <h2>Infrastructure as Code with Terraform & OpenTofu</h2>
+
+
 
         <div class="quick-links">
 
             <p>
                 <strong>Week 1 manual VPS:</strong>
-                <a href="http://86.50.231.82/" target="_blank">http://86.50.231.82/</a>
+                <a href="http://86.50.231.82/" target="_blank">
+                    http://86.50.231.82/
+                </a>
             </p>
 
             <p>
                 <strong>Week 7 live webpage:</strong>
-                <a href="http://128.214.255.177/" target="_blank">http://128.214.255.177/</a>
+                <a href="http://128.214.255.177/" target="_blank">
+                    http://128.214.255.177/
+                </a>
             </p>
 
             <p>
                 <strong>Week 7 GitHub:</strong>
-                <a href="https://github.com/Mishomoon/cloud-services-week7" target="_blank">GitHub Repository</a>
+                <a href="https://github.com/Mishomoon/cloud-services-week7" target="_blank">
+                    GitHub Repository
+                </a>
             </p>
 
         </div>
@@ -403,9 +426,15 @@ footer {
 
 <nav class="tabs">
 
-    <button class="tab-button active" onclick="showWeek('week7', this)">Week 7</button>
+    <button class="tab-button active"
+            onclick="showWeek('week7', this)">
+        Week 7
+    </button>
 
-    <button class="tab-button" onclick="showWeek('week1', this)">Week 1</button>
+    <button class="tab-button"
+            onclick="showWeek('week1', this)">
+        Week 1
+    </button>
 
 </nav>
 
@@ -425,13 +454,18 @@ footer {
 
     <div class="pdf-container">
 
-        <iframe src="Cloud%20service%20(6).pdf" title="Cloud Services Week 1"></iframe>
+        <iframe
+            src="Cloud%20service%20(6).pdf"
+            title="Cloud Services Week 1">
+        </iframe>
 
     </div>
 
     <p>
         <strong>Week 1 manual VPS:</strong>
-        <a href="http://86.50.231.82/" target="_blank">http://86.50.231.82/</a>
+        <a href="http://86.50.231.82/" target="_blank">
+            http://86.50.231.82/
+        </a>
     </p>
 
 </section>
@@ -480,7 +514,9 @@ footer {
             returned HTTP status code 200.
         </p>
 
-        <a href="http://128.214.255.177/" target="_blank">Open the Week 7 webpage</a>
+        <a href="http://128.214.255.177/" target="_blank">
+            Open the Week 7 webpage
+        </a>
 
     </div>
 
@@ -493,70 +529,93 @@ footer {
     <table class="compare-table">
 
         <tr>
+
             <th>Week 1 - Manual setup</th>
+
             <th>Week 7 - OpenTofu</th>
+
         </tr>
 
         <tr>
+
             <td>
-                I created the VPS manually through the cloud interface and followed the setup steps myself.
+                I created the VPS manually through the cloud interface
+                and followed the setup steps myself.
             </td>
 
             <td>
-                I described the infrastructure in OpenTofu configuration files and used OpenTofu to create and manage the resources.
+                I described the infrastructure in OpenTofu configuration
+                files and used OpenTofu to create and manage the resources.
             </td>
+
         </tr>
 
         <tr>
+
             <td>
                 Server configuration depended on manual actions and commands.
             </td>
 
             <td>
-                cloud-init automatically installed Apache and created the webpage when the VM started.
+                cloud-init automatically installed Apache and created
+                the webpage when the VM started.
             </td>
+
         </tr>
 
         <tr>
+
             <td>
                 Rebuilding the server meant repeating the manual setup.
             </td>
 
             <td>
-                I could use <code>tofu destroy</code> and <code>tofu apply</code> to remove and recreate the infrastructure from the configuration.
+                I could use <code>tofu destroy</code> and
+                <code>tofu apply</code> to remove and recreate the
+                infrastructure from the configuration.
             </td>
+
         </tr>
 
         <tr>
+
             <td>
                 It was harder to see exactly which settings had been used.
             </td>
 
             <td>
-                The configuration files document the desired infrastructure and can be stored in Git.
+                The configuration files document the desired infrastructure
+                and can be stored in Git.
             </td>
+
         </tr>
 
         <tr>
+
             <td>
                 A manual change could easily be forgotten.
             </td>
 
             <td>
-                <code>tofu plan</code> can compare the configuration with the infrastructure and show changes or drift.
+                <code>tofu plan</code> can compare the configuration with
+                the infrastructure and show changes or drift.
             </td>
+
         </tr>
 
     </table>
 
     <p>
         My original Week 1 VPS:
-        <a href="http://86.50.231.82/" target="_blank">http://86.50.231.82/</a>
+        <a href="http://86.50.231.82/" target="_blank">
+            http://86.50.231.82/
+        </a>
     </p>
 
     <p>
         My Week 7 project:
-        <a href="https://github.com/Mishomoon/cloud-services-week7" target="_blank">
+        <a href="https://github.com/Mishomoon/cloud-services-week7"
+           target="_blank">
             GitHub repository
         </a>
     </p>
@@ -568,11 +627,12 @@ footer {
     <h2>3. Part A - Infrastructure as Code Questions</h2>
 
     <p>
-        The assignment asked me to select and answer at least four questions.
         I selected four questions that are directly connected to my Week 7 work.
     </p>
 
-    <h3>1. What is Infrastructure as Code, and which problems does it solve?</h3>
+    <h3>
+        1.  What is Infrastructure as Code, and which problems does it solve?
+    </h3>
 
     <p>
         Infrastructure as Code means managing infrastructure such as virtual
@@ -592,13 +652,14 @@ footer {
         something slightly differently.
     </p>
 
-    <p>
-        In Week 7, I wrote the infrastructure in OpenTofu. The configuration
-        defined the VM, network port and security group. I also used
-        cloud-init so that Apache and the webpage were configured
-        automatically when the VM started. This made the process much more
-        repeatable.
-    </p>
+   <p>
+    In Week 7, I wrote the infrastructure in OpenTofu.
+    My configuration defines the VM, network port, security group,
+    security group rules, managed key pair and floating IP resource.
+    I also used cloud-init so that Apache and the webpage were configured
+    automatically when the VM started. This made the process much more
+    repeatable.
+</p>
 
     <p>
         The destroy and rebuild experiment showed this practically. I ran
@@ -619,11 +680,15 @@ footer {
 
         <strong>Reference</strong>
 
-        <a href="https://opentofu.org/docs/" target="_blank">OpenTofu Documentation</a>
+        <a href="https://opentofu.org/docs/" target="_blank">
+            OpenTofu Documentation
+        </a>
 
     </div>
 
-    <h3>2. Declarative vs. imperative automation and idempotency</h3>
+    <h3>
+        2.  Declarative vs. imperative automation and idempotency
+    </h3>
 
     <p>
         Imperative automation describes the steps that should be performed.
@@ -673,60 +738,76 @@ footer {
 
         <br><br>
 
-        <a href="https://www.hashicorp.com/en/resources/what-is-infrastructure-as-code" target="_blank">
+        <a href="https://www.hashicorp.com/en/resources/what-is-infrastructure-as-code"
+           target="_blank">
             HashiCorp - What is Infrastructure as Code?
         </a>
 
     </div>
 
-    <h3>3. Why was OpenTofu created? Terraform vs. OpenTofu</h3>
+    <h3>3. Why use OpenTofu instead of Terraform?</h3>
 
-    <p>
-        Terraform was originally developed by HashiCorp and became one of
-        the most widely used Infrastructure as Code tools. It uses HCL
-        (HashiCorp Configuration Language) to describe infrastructure and
-        uses providers to communicate with different platforms such as
-        OpenStack, AWS, Azure and many others.
-    </p>
+<p>
+ OpenTofu was created in 2023 as a fork of the last open-source (MPL-licensed)
+ version of Terraform, after HashiCorp changed Terraform's license. OpenTofu
+ and Terraform use a very similar Infrastructure as Code approach,so the
+ configuration and workflow are familiar.I chose OpenTofu because it is
+ an open-source, community-governed alternative to Terraform.
+</p>
 
-    <p>
-        In 2023, HashiCorp changed Terraform's license from the Mozilla Public
-        License to the Business Source License. Because of this change,
-        community members and companies created a fork of the last
-        open-source Terraform version. This project became OpenTofu.
-    </p>
+<p>
+    One important difference is licensing. HashiCorp changed Terraform's license
+    from the Mozilla Public License (MPL) 2.0 to the Business Source License
+    (BSL) 1.1. The BSL places restrictions on some commercial uses,
+    especially products or services that compete with HashiCorp's products.
+</p>
 
-    <p>
-        OpenTofu keeps the same general idea and uses almost the same
-        configuration language and workflow. In this course I used commands
-        such as <code>tofu init</code>, <code>tofu plan</code>,
-        <code>tofu apply</code> and <code>tofu destroy</code>.
-        Someone familiar with Terraform will recognize the same workflow,
-        with <code>tofu</code> used instead of <code>terraform</code>.
-    </p>
+<p>
+    OpenTofu remains under the MPL 2.0 license and is governed as an
+    open-source project under the Linux Foundation. This makes OpenTofu an attractive
+    choice for organisations that want an open-source IaC tool without the same
+    licensing restrictions.
+</p>
 
-    <p>
-        For my Week 7 project, the difference mattered mainly because I used
-        OpenTofu. As a student, I could move between Terraform and OpenTofu
-        concepts relatively easily because the configuration style and
-        provider model are very similar.
-    </p>
+<p>
+    For me, another advantage is that OpenTofu is community-governed rather
+    than controlled by a single company. It also reduces the risk of being tied to
+    one vendor's licensing decisions. The commands and workflow I used in this
+    assignment, such as<code>tofu init</code>,
+    <code>tofu plan</code>, <code>tofu apply</code> and <code>tofu destroy</code>,
+    worked well for managing my cPouta infrastructure.
+</p>
 
     <div class="reference">
+<p>
+    <strong>References:</strong>
+</p>
 
-        <strong>Reference</strong>
-
-        <a href="https://opentofu.org/" target="_blank">OpenTofu official website</a>
-
-        <br><br>
-
-        <a href="https://developer.hashicorp.com/terraform/docs" target="_blank">
-            Terraform Documentation
+<ul>
+    <li>
+        HashiCorp:
+        <a href="https://www.hashicorp.com/en/bsl" target="_blank">
+            Business Source License 1.1
         </a>
+        — information about the BSL and competitive offerings.
+    </li>
+
+    <li>
+        Linux Foundation:
+        <a href="https://www.linuxfoundation.org/press/opentofu-announces-general-availability"
+           target="_blank">
+            OpenTofu Announces General Availability
+        </a>
+        — information about OpenTofu as a community-driven project under
+        the Linux Foundation.
+    </li>
+</ul>
 
     </div>
 
-    <h3>4. What is the state file and why should it not be committed?</h3>
+    <h3>
+        4.  What is the state file and why should it not be committed?
+    </h3>
 
     <p>
         OpenTofu uses a state file to keep track of the relationship between
@@ -804,11 +885,179 @@ footer {
             screenshots used in this documentation.
         </p>
 
-        <a class="button" href="https://github.com/Mishomoon/cloud-services-week7" target="_blank">
+        <a class="button"
+           href="https://github.com/Mishomoon/cloud-services-week7"
+           target="_blank">
             View Week 7 GitHub Repository
         </a>
 
     </div>
+
+</section>
+<section class="section">
+
+    <h2>Resources and Files</h2>
+
+<h3>OpenTofu Resources and Dependencies</h3>
+
+<p>
+    My <code>main.tf</code> file describes the infrastructure needed for the
+    Week 7 environment. The resources are connected through references,
+    so OpenTofu can understand their dependencies and create or remove them
+    in the correct order.
+</p>
+
+<ul>
+
+    <li>
+        <strong>Project network data source:</strong>
+        <code>data.openstack_networking_network_v2.project</code> finds the
+        existing cPouta project network that the VM uses. The network is
+        looked up rather than created by OpenTofu.
+    </li>
+
+
+<li>
+    <strong>Floating IP resource and port association:</strong>
+    <code>openstack_networking_floatingip_v2.web</code>
+    creates and manages the public floating IP. Its
+    <code>port_id</code> connects the floating IP to the network
+    port used by the Week 7 VM, making the webpage publicly reachable.
+</li>
+
+    <li>
+        <strong>Security group:</strong>
+        <code>openstack_networking_secgroup_v2.web</code> creates and manages
+        the security group used by the web server.
+    </li>
+
+    <li>
+        <strong>SSH rule:</strong>
+        <code>openstack_networking_secgroup_rule_v2.ssh</code> allows SSH
+        traffic on port 22 only from the CIDR address defined by
+        <code>ssh_allowed_cidr</code>.
+    </li>
+
+    <li>
+        <strong>HTTP rule:</strong>
+        <code>openstack_networking_secgroup_rule_v2.http</code> allows
+        HTTP traffic on port 80 from the internet so that the webpage
+        can be accessed publicly.
+    </li>
+
+    <li>
+        <strong>Network port:</strong>
+        <code>openstack_networking_port_v2.web</code> creates the network
+        port and connects it to the project network and the web security
+        group. The VM uses this port for its network connection.
+    </li>
+
+    <li>
+        <strong>Key pair:</strong>
+        <code>openstack_compute_keypair_v2.week7</code> manages the
+        OpenTofu SSH key pair named
+        <code>cloud-services-week7-iac-ed25519</code>. The public key is
+        read from <code>ssh_public_key_path</code>. The VM uses this
+        OpenTofu-managed key pair.
+    </li>
+
+
+
+
+
+    <li>
+        <strong>VM:</strong>
+        <code>openstack_compute_instance_v2.week7</code> creates and manages
+        the Linux VM. It uses the selected image, flavor, network port,
+        security group and the OpenTofu-managed SSH key pair.
+    </li>
+
+</ul>
+
+<p>
+    <strong>How the resources refer to each other:</strong>
+</p>
+
+<ul>
+    <li>
+        The network port uses
+        <code>data.openstack_networking_network_v2.project</code> and
+        <code>openstack_networking_secgroup_v2.web</code>.
+    </li>
+    <li>
+        The VM uses the network port and
+        <code>openstack_compute_keypair_v2.week7</code>.
+    </li>
+
+<li>
+    The floating IP resource depends on
+    <code>openstack_networking_port_v2.web</code> through its
+    <code>port_id</code> argument. OpenTofu uses this reference
+    to determine the creation and destruction order.
+</li>
+
+</ul>
+
+
+    <h3>What each project file does</h3>
+
+<ul>
+    <li>
+        <strong><code>provider.tf</code>:</strong>
+        configures the OpenStack provider so OpenTofu can communicate
+        with the cPouta cloud environment.
+    </li>
+
+   <li>
+    <strong><code>terraform.tfvars.example</code>:</strong>
+    provides example input variable values that can be copied to
+    <code>terraform.tfvars</code> and adjusted for another cPouta project.
+</li>
+
+    <li>
+        <strong><code>variables.tf</code>:</strong>
+        defines the input variables used by the configuration, including
+        the instance name, image, flavor, network, key pair, SSH public
+        key path and allowed SSH CIDR.
+        <code>ssh_allowed_cidr</code> has a validation rule that rejects values
+        that are not a valid CIDR address.
+    </li>
+
+    <li>
+        <strong><code>outputs.tf</code>:</strong>
+        defines the values displayed after <code>tofu apply</code>,
+        including the instance name, private IP, public IP and webpage URL.
+    </li>
+
+    <li>
+        <strong><code>cloud-init.yaml</code>:</strong>
+        contains the VM's first-boot configuration. It installs Apache
+        and Git, clones my public GitHub repository and copies the
+        webpage files, screenshots and Week 1 PDF into the Apache
+        web directory.
+    </li>
+
+    <li>
+        <strong><code>.gitignore</code>:</strong>
+        prevents local OpenTofu state files and personal variable files
+        from being accidentally committed to Git.
+    </li>
+
+   <li>
+    <strong><code>main.tf</code>:</strong>
+    contains the infrastructure resources and the project network
+    data source, including the security group, security rules,
+    network port, managed key pair, floating IP resource and VM.
+</li>
+</ul>
+
+<p>
+    The cloud-init configuration also creates a dependency on my public
+    GitHub repository. Because the VM clones the repository during its
+    first boot, the repository must remain publicly accessible and must
+    contain the <code>index.html</code>, <code>screenshots</code> folder
+    and the Week 1 PDF used by the cloud-init configuration.
+</p>
 
 </section>
 
@@ -826,19 +1075,29 @@ footer {
 
         <div class="slide-image-container">
 
-            <img id="setupSlide" src="screenshots/tofu-init.png" alt="OpenTofu setup">
+            <img id="setupSlide"
+                 src="screenshots/tofu-init.png"
+                 alt="OpenTofu setup">
 
         </div>
 
-        <div class="caption" id="setupCaption">OpenTofu initialization</div>
+        <div class="caption" id="setupCaption">
+            OpenTofu initialization
+        </div>
 
         <div class="slide-controls">
 
-            <button onclick="previousSlide('setup')">← Previous</button>
+            <button onclick="previousSlide('setup')">
+                ← Previous
+            </button>
 
-            <span class="slide-counter" id="setupCounter">Screenshot 1 of 5</span>
+            <span class="slide-counter" id="setupCounter">
+                Screenshot 1 of 6
+            </span>
 
-            <button onclick="nextSlide('setup')">Next →</button>
+            <button onclick="nextSlide('setup')">
+                Next →
+            </button>
 
         </div>
 
@@ -866,19 +1125,29 @@ footer {
 
         <div class="slide-image-container">
 
-            <img id="networkSlide" src="screenshots/instance-info.png" alt="VM information">
+            <img id="networkSlide"
+                 src="screenshots/instance-info.png"
+                 alt="VM information">
 
         </div>
 
-        <div class="caption" id="networkCaption">VM instance information</div>
+        <div class="caption" id="networkCaption">
+            VM instance information
+        </div>
 
         <div class="slide-controls">
 
-            <button onclick="previousSlide('network')">← Previous</button>
+            <button onclick="previousSlide('network')">
+                ← Previous
+            </button>
 
-            <span class="slide-counter" id="networkCounter">Screenshot 1 of 5</span>
+            <span class="slide-counter" id="networkCounter">
+                Screenshot 1 of 5
+            </span>
 
-            <button onclick="nextSlide('network')">Next →</button>
+            <button onclick="nextSlide('network')">
+                Next →
+            </button>
 
         </div>
 
@@ -907,26 +1176,38 @@ footer {
     </p>
 
     <p>
-        <a href="http://128.214.255.177/" target="_blank">Open the live Week 7 webpage</a>
+        <a href="http://128.214.255.177/" target="_blank">
+            Open the live Week 7 webpage
+        </a>
     </p>
 
     <div class="slideshow">
 
         <div class="slide-image-container">
 
-            <img id="apacheSlide" src="screenshots/apache-active.png" alt="Apache evidence">
+            <img id="apacheSlide"
+                 src="screenshots/apache-active.png"
+                 alt="Apache evidence">
 
         </div>
 
-        <div class="caption" id="apacheCaption">Apache service is active</div>
+        <div class="caption" id="apacheCaption">
+            Apache service is active
+        </div>
 
         <div class="slide-controls">
 
-            <button onclick="previousSlide('apache')">← Previous</button>
+            <button onclick="previousSlide('apache')">
+                ← Previous
+            </button>
 
-            <span class="slide-counter" id="apacheCounter">Screenshot 1 of 4</span>
+            <span class="slide-counter" id="apacheCounter">
+                Screenshot 1 of 4
+            </span>
 
-            <button onclick="nextSlide('apache')">Next →</button>
+            <button onclick="nextSlide('apache')">
+                Next →
+            </button>
 
         </div>
 
@@ -935,69 +1216,113 @@ footer {
 </section>
 
 <section class="section">
-
-    <h2>8. Experiment 1 - Change and Replacement</h2>
-
-    <h3>Change 1 - cloud-init / user_data</h3>
+    <h2>How to reproduce the setup</h2>
 
     <p>
-        I changed the cloud-init configuration used by the VM and then ran
-        <code>tofu plan</code>.
+        These steps explain how to recreate the Week 7 infrastructure
+        using the OpenTofu configuration in this repository.
     </p>
+
+    <ol>
+        <li>Install OpenTofu on your computer.</li>
+        <li>Download the OpenStack RC file from the cPouta dashboard and load it in your terminal. Enter your OpenStack password when prompted.</li>
+        <li>Copy <code>terraform.tfvars.example</code> to <code>terraform.tfvars</code>.</li>
+        <li>Update the values in <code>terraform.tfvars</code> for your cPouta project, network, SSH key and allowed SSH IP address.</li>
+        <li>Open a terminal in the project folder and run these commands in order:</li>
+    </ol>
+
+    <pre><code>tofu init
+tofu validate
+tofu plan
+tofu apply</code></pre>
 
     <p>
-        Before applying the change, I checked the plan to see what OpenTofu
-        would do. The plan showed that the VM
-        <code>openstack_compute_instance_v2.week7</code> had to be replaced.
-        The reason was that the <code>user_data</code> change forces the VM
-        to be recreated.
+        Review the plan before confirming <code>tofu apply</code>.
+        To remove the resources created by this configuration, run
+        <code>tofu destroy</code> after checking the destruction plan.
     </p>
-
-    <p>
-        The plan therefore showed a destroy-and-create operation rather than
-        a simple update. This was useful because I could see the consequence
-        of the change before actually applying it.
-    </p>
-
-    <h3>Change 2 - security group description</h3>
-
-    <p>
-        For the second change, I changed the description of the security
-        group. I expected this to be less serious because the description
-        does not change the actual network rules.
-    </p>
-
-    <p>
-        OpenTofu showed that the security group could be updated in place.
-        The resource did not need to be destroyed and recreated.
-    </p>
-
-    <div class="slideshow">
-
-        <div class="slide-image-container">
-
-            <img id="experiment1Slide" src="screenshots/change1.png" alt="Experiment 1">
-
-        </div>
-
-        <div class="caption" id="experiment1Caption">Cloud-init change causing VM replacement</div>
-
-        <div class="slide-controls">
-
-            <button onclick="previousSlide('experiment1')">← Previous</button>
-
-            <span class="slide-counter" id="experiment1Counter">Screenshot 1 of 3</span>
-
-            <button onclick="nextSlide('experiment1')">Next →</button>
-
-        </div>
-
-    </div>
-
 </section>
 
 <section class="section">
 
+<h2>8. Experiment 1 - Change and Replacement</h2>
+
+<h3>Change 1 - cloud-init / user_data</h3>
+
+<p>
+    I changed the cloud-init configuration used by the VM and then ran
+    <code>tofu plan</code>.
+</p>
+
+<p>
+    <strong>Prediction:</strong> I predicted that changing the VM
+    <code>user_data</code> would require the VM to be replaced, because
+    cloud-init is used when the VM is created and the changed configuration
+    needs to be applied to a fresh instance.
+</p>
+
+<p>
+    <strong>Result:</strong> My prediction was correct. The plan showed that
+    <code>openstack_compute_instance_v2.week7</code> had to be replaced.
+    OpenTofu showed a destroy-and-create operation instead of an in-place
+    update.
+</p>
+
+<p>
+    The reason is that <code>user_data</code> contains first-boot
+    configuration. When it changes, the VM needs to be recreated so that the
+    new cloud-init configuration can be applied during the new VM's first
+    boot.
+</p>
+
+<h3>Change 2 - security group description</h3>
+
+<p>
+    For the second change, I changed only the description of the security
+    group. The actual SSH and HTTP rules were not changed.
+</p>
+
+<p>
+    <strong>Prediction:</strong> I predicted that this change would be
+    updated in place because changing a description does not require the
+    security group itself to be recreated.
+</p>
+
+<p>
+    <strong>Result:</strong> My prediction was correct. OpenTofu showed that
+    the security group could be updated in place. The resource did not need
+    to be destroyed and recreated.
+</p>
+
+<p>
+    This experiment showed me that not every configuration change has the
+    same effect. A change to VM <code>user_data</code> caused a replacement,
+    while a change to the security group description could be made
+    in place.
+</p>
+
+<div class="slideshow">
+    <div class="slide-image-container">
+        <img id="experiment1Slide"
+             src="screenshots/change1.png"
+             alt="Experiment 1">
+    </div>
+
+    <div class="caption" id="experiment1Caption">
+        Cloud-init change causing VM replacement
+    </div>
+
+    <div class="slide-controls">
+        <button onclick="previousSlide('experiment1')">← Previous</button>
+        <span class="slide-counter" id="experiment1Counter">
+            Screenshot 1 of 3
+        </span>
+        <button onclick="nextSlide('experiment1')">Next →</button>
+    </div>
+</div>
+</section>
+
+<section class="section">
     <h2>9. Experiment 2 - Configuration Drift</h2>
 
     <p>
@@ -1012,117 +1337,178 @@ footer {
 
     <p>
         I did not change the OpenTofu configuration. This meant that the
-        actual infrastructure and the declared configuration now contained
+        actual infrastructure and the declared configuration contained
         different values.
     </p>
 
     <p>
-        I then ran <code>tofu plan</code>. OpenTofu detected the difference
-        and showed that the security group description would be changed back
-        to the value declared in the OpenTofu configuration.
+        <strong>Prediction:</strong> I expected
+        <code>tofu plan</code> to notice the changed security group
+        description because the security group is managed by OpenTofu.
     </p>
 
     <p>
-        The plan showed an in-place update rather than a replacement. This
-        experiment gave me a practical example of configuration drift:
-        the cloud environment had been changed manually, while the code still
-        described the original desired state.
+        <strong>Result:</strong> My prediction was correct. OpenTofu detected
+        the difference and showed that the security group description would
+        be changed back to the value declared in the OpenTofu configuration.
+        The security group could be updated in place rather than replaced.
+    </p>
+
+    <p>
+        However, <code>tofu plan</code> does not automatically detect every
+        kind of manual change. For example, if I manually edited an Apache
+        configuration file inside the VM through SSH, OpenTofu would not
+        normally detect that file change because the Apache configuration
+        file is not represented as a managed OpenTofu resource.
+    </p>
+
+    <p>
+        Another example would be creating a completely separate cloud
+        resource manually through the cPouta web interface without adding
+        it to the OpenTofu configuration or state. OpenTofu would not
+        automatically manage that resource just because it exists in the
+        cloud.
+    </p>
+
+    <p>
+        This is because <code>tofu plan</code> compares the declared
+        configuration with the infrastructure information available through
+        OpenTofu state and the provider. It is not a general scanner of
+        everything that has been manually changed inside a VM or created
+        outside the configuration.
     </p>
 
     <p>
         The important lesson for me was that once infrastructure is managed
-        with IaC, making random changes through the cloud dashboard can cause
-        the real environment and the code to become inconsistent.
+        with IaC, manual changes can cause the real environment and the code
+        to become inconsistent. Keeping changes in the OpenTofu
+        configuration makes the infrastructure easier to understand and
+        reproduce.
     </p>
 
     <div class="slideshow">
-
         <div class="slide-image-container">
-
-            <img id="experiment2Slide" src="screenshots/apply-experiment2.png" alt="Drift experiment">
-
+            <img id="experiment2Slide"
+     src="screenshots/apply-expirement2.png"
+     alt="Drift experiment">
         </div>
 
-        <div class="caption" id="experiment2Caption">Manual configuration drift test</div>
+        <div class="caption" id="experiment2Caption">
+            Manual configuration drift test
+        </div>
 
         <div class="slide-controls">
-
             <button onclick="previousSlide('experiment2')">← Previous</button>
-
-            <span class="slide-counter" id="experiment2Counter">Screenshot 1 of 2</span>
-
+            <span class="slide-counter" id="experiment2Counter">
+                Screenshot 1 of 2
+            </span>
             <button onclick="nextSlide('experiment2')">Next →</button>
-
         </div>
-
     </div>
-
 </section>
-
 <section class="section">
 
     <h2>10. Experiment 3 - Destroy and Rebuild</h2>
 
     <p>
-        For the final experiment, I tested whether the infrastructure could
-        actually be recreated from the OpenTofu configuration.
+        For Experiment 3, I tested whether I could destroy the infrastructure
+        with <code>tofu destroy</code> and then recreate it with
+        <code>tofu apply</code>.
     </p>
 
     <p>
-        First, I ran <code>tofu destroy</code>. OpenTofu removed the resources
-        that were managed by the configuration, including the VM, network
-        port, security group and security group rules.
+        <strong>Prediction:</strong> I expected OpenTofu to remove the
+        resources according to their dependencies and then recreate them
+        from the configuration when I ran <code>tofu apply</code>.
     </p>
 
-    <p>
-        After the destroy operation, I ran <code>tofu apply</code> again.
-        OpenTofu created the infrastructure again using the configuration.
-        The new VM did not necessarily have exactly the same private IP
-        address as before because the VM was recreated.
-    </p>
+<p>
+    OpenTofu destroys resources according to their dependencies. Resources
+    that depend on other resources must be removed before the resources
+    they depend on. In this configuration, the floating IP is connected
+    to the network port through <code>port_id</code>, so the floating IP
+    must be removed before the port. The security group rules depend on
+    the security group, so the rules must be removed before the security
+    group. OpenTofu determines the order from the dependencies in the
+    configuration, and independent resources may be destroyed in parallel.
+</p>
 
-    <p>
-        The webpage did not work immediately after the rebuild. At first,
-        the VM was still starting and cloud-init was still working. Apache
-        needed to be installed and started before the webpage could respond.
-    </p>
 
-    <p>
-        After waiting for the boot and cloud-init process to finish, I tested
-        the webpage again. It became available and returned HTTP status
-        code 200.
-    </p>
+<h3>Destroy result</h3>
 
-    <p>
-        This experiment showed me the main benefit of Infrastructure as Code:
-        I could destroy the managed infrastructure and rebuild it from the
-        configuration without repeating the entire manual Week 1 process.
-    </p>
+<p>
+    I ran <code>tofu destroy</code>. OpenTofu destroyed all
+    7 managed resources, including the VM, managed key pair,
+    floating IP, network port, security group rules and
+    security group.
+</p>
+
+<pre><code>Destroy complete! Resources: 7 destroyed.</code></pre>
+
+<h3>Rebuild result</h3>
+
+<p>
+    After the destroy operation, I ran <code>tofu apply</code>.
+    OpenTofu recreated all 7 resources successfully.
+</p>
+
+<pre><code>Apply complete! Resources: 7 added, 0 changed, 0 destroyed.</code></pre>
+
+<p>
+    The new private IP address was
+    <strong>192.168.1.194</strong>. The public IP address remained
+    <strong>128.214.255.177</strong>.
+</p>
+
+<p>
+    The VM became active, but the webpage took about two minutes
+    to work after the rebuild. Once the startup process finished,
+    I confirmed that the webpage was accessible again.
+</p>
+
+<p>
+    This experiment showed that OpenTofu could destroy and
+    recreate the infrastructure using my final configuration.
+    It also showed that the webpage may need time to become
+    available after the VM starts.
+</p>
+
+
+
 
     <div class="slideshow">
 
         <div class="slide-image-container">
 
-            <img id="experiment3Slide" src="screenshots/experiment3-destroy.png" alt="Destroy and rebuild">
+            <img id="experiment3Slide"
+                 src="screenshots/expirement3-destroy.png"
+                 alt="Actual tofu destroy output">
 
         </div>
 
-        <div class="caption" id="experiment3Caption">tofu destroy</div>
+        <div class="caption" id="experiment3Caption">
+            Actual tofu destroy output
+        </div>
 
         <div class="slide-controls">
 
-            <button onclick="previousSlide('experiment3')">← Previous</button>
+            <button onclick="previousSlide('experiment3')">
+                ← Previous
+            </button>
 
-            <span class="slide-counter" id="experiment3Counter">Screenshot 1 of 3</span>
+            <span class="slide-counter" id="experiment3Counter">
+                Screenshot 1 of 3
+            </span>
 
-            <button onclick="nextSlide('experiment3')">Next →</button>
+            <button onclick="nextSlide('experiment3')">
+                Next →
+            </button>
 
         </div>
 
     </div>
 
 </section>
-
 <section class="section">
 
     <h2>11. Security and Good Practices</h2>
@@ -1144,54 +1530,94 @@ footer {
 
     <ul>
 
-        <li>HTTP port 80 is public because the website needs to be reachable.</li>
+        <li>
+            HTTP port 80 is public because the website needs to be reachable.
+        </li>
 
-        <li>SSH port 22 is restricted to my own IP address.</li>
+        <li>
+            SSH port 22 is restricted to my own IP address.
+        </li>
 
-        <li>OpenTofu state files are ignored by Git.</li>
+        <li>
+            OpenTofu state files are ignored by Git.
+        </li>
 
-        <li>Personal <code>.tfvars</code> files are ignored.</li>
+        <li>
+            Personal <code>.tfvars</code> files are ignored.
+        </li>
 
-        <li>Private SSH keys are not part of the public repository.</li>
+        <li>
+            Private SSH keys are not part of the public repository.
+        </li>
 
-        <li>Cloud credentials and passwords should never be placed in the code.</li>
+        <li>
+            Cloud credentials and passwords should never be placed in the code.
+        </li>
 
     </ul>
+    <div class="slideshow">
+    <div class="slide-image-container">
+        <img
+            id="securitySlide"
+            src="screenshots/gitignore.png"
+            alt="Gitignore">
+    </div>
+
+    <div class="caption" id="securityCaption">
+        Git ignore configuration
+    </div>
+
+    <div class="slide-controls">
+        <button onclick="previousSlide('security')">← Previous</button>
+
+        <span
+            class="slide-counter"
+            id="securityCounter">
+            Screenshot 1 of 1
+        </span>
+
+        <button onclick="nextSlide('security')">Next →</button>
+    </div>
+</div>
 
     <br>
 
-    <a class="button" href="https://github.com/Mishomoon/cloud-services-week7" target="_blank">
+    <a class="button"
+       href="https://github.com/Mishomoon/cloud-services-week7"
+       target="_blank">
         View GitHub Repository
     </a>
 
 </section>
 
-<section class="section">
+
+
+    <section class="section">
 
     <h2>12. Problems and Solutions</h2>
+<h3>12.1 Understanding why a VM had to be replaced</h3>
 
-    <h3>12.1 Understanding why a VM had to be replaced</h3>
+<p>
+    One problem I had was understanding exactly which changes cause an
+    OpenTofu resource to be replaced. Before applying the change, I used
+    <code>tofu plan</code> to check what would happen when I changed the
+    cloud-init configuration.
+</p>
 
-    <p>
-        One of the first problems I had was understanding the difference
-        between changing a resource and replacing a resource. When I changed
-        the cloud-init configuration, I initially expected OpenTofu to update
-        the existing VM.
-    </p>
+<p>
+    I predicted that changing the VM <code>user_data</code> would require
+    the VM to be replaced because cloud-init is used during the VM's
+    first boot.
+</p>
 
-    <p>
-        Instead, <code>tofu plan</code> showed that the VM
-        <code>must be replaced</code>. The important part of the plan was the
-        change to <code>user_data</code>, which forces the instance to be
-        recreated.
-    </p>
+<p>
+    The plan confirmed my prediction. The VM
+    <code>openstack_compute_instance_v2.week7</code> was marked as
+    <code>must be replaced</code>. The solution was to read the plan
+    carefully before applying changes so I could understand whether
+    OpenTofu would update or replace a resource.
+</p>
 
-    <p>
-        The solution was to read the plan before applying it instead of
-        assuming that every change would be made in place. The plan made it
-        clear that OpenTofu would destroy the old instance and create a new
-        one.
-    </p>
 
     <h3>12.2 The webpage did not work immediately after rebuilding</h3>
 
@@ -1204,7 +1630,7 @@ footer {
     <p>
         At first this looked like an infrastructure problem, but the VM was
         still starting. cloud-init needed time to run its first-boot
-        configuration. It had to install Apache, create the HTML file and
+        configuration. It had to install Apache, copy the webpage files and
         start the Apache service.
     </p>
 
@@ -1213,6 +1639,7 @@ footer {
         again. After cloud-init completed, Apache was running and the public
         webpage returned HTTP status code 200.
     </p>
+
 
     <h3>12.3 Understanding configuration drift</h3>
 
@@ -1233,6 +1660,7 @@ footer {
         back to the value from the configuration.
     </p>
 
+
     <h3>12.4 OpenStack CLI was not available on my computer</h3>
 
     <p>
@@ -1248,23 +1676,34 @@ footer {
         networking and that the public webpage was reachable.
     </p>
 
+
     <div class="slideshow">
 
         <div class="slide-image-container">
 
-            <img id="problemsSlide" src="screenshots/experiment3-pageworking.png" alt="Problem solving evidence">
+            <img id="problemsSlide"
+                 src="screenshots/expirement3-pageworking.png"
+                 alt="Problem solving evidence">
 
         </div>
 
-        <div class="caption" id="problemsCaption">Webpage working after the rebuild</div>
+        <div class="caption" id="problemsCaption">
+            Webpage working after the rebuild
+        </div>
 
         <div class="slide-controls">
 
-            <button onclick="previousSlide('problems')">← Previous</button>
+            <button onclick="previousSlide('problems')">
+                ← Previous
+            </button>
 
-            <span class="slide-counter" id="problemsCounter">Screenshot 1 of 2</span>
+            <span class="slide-counter" id="problemsCounter">
+                Screenshot 1 of 2
+            </span>
 
-            <button onclick="nextSlide('problems')">Next →</button>
+            <button onclick="nextSlide('problems')">
+                Next →
+            </button>
 
         </div>
 
@@ -1272,54 +1711,92 @@ footer {
 
 </section>
 
+
 <section class="section">
 
     <h2>13. Reflection</h2>
 
-    <p>
-        The biggest difference I noticed between Week 1 and Week 7 was the
-        way the infrastructure was created. In Week 1, I manually followed
-        the setup process and configured the server. In Week 7, I had to
-        describe the infrastructure in code and let OpenTofu work out the
-        changes.
-    </p>
+<p>
+    Comparing Week 1 with Week 7, I found that the biggest difference was
+    how the server was created. In Week 1, I created and configured the VPS
+    manually. In Week 7, I described the infrastructure in OpenTofu and used
+    cloud-init to configure the web server automatically.
+</p>
 
-    <p>
-        At first, OpenTofu was more confusing than the manual setup because
-        there were several new concepts to understand, such as resources,
-        variables, state, providers, dependencies and the difference between
-        in-place changes and replacement changes.
-    </p>
+<p>
+    At first, OpenTofu was more difficult for me because I had to understand
+    resources, dependencies, state, variables and the difference between an
+    in-place update and a replacement. For example, when I changed the
+    cloud-init configuration, <code>tofu plan</code> showed that the VM had
+    to be replaced. This helped me understand that OpenTofu does not simply
+    edit every change on an existing server.
+</p>
 
-    <p>
-        After I got the configuration working, I could see why IaC is useful.
-        The configuration gave me a repeatable way to create the infrastructure.
-        The destroy and rebuild experiment was especially useful because I
-        could remove the managed resources and then recreate them from the
-        same configuration.
-    </p>
+<p>
+    The main advantage I noticed was repeatability. Instead of manually
+    configuring the server again, the configuration and cloud-init files
+    describe how the infrastructure should be created. This made the
+    destroy-and-rebuild experiment useful because I could use the same
+    configuration again.
+</p>
 
-    <p>
-        The drift experiment was also important for my understanding. I
-        manually changed a security group through the cPouta interface and
-        then used <code>tofu plan</code> to see that the real infrastructure
-        no longer matched the configuration.
-    </p>
+<p>
+    I also learned that security needs to be considered in the code. I
+    restricted SSH access to my allowed CIDR address while HTTP was open
+    because the webpage needed to be publicly accessible. I also used
+    <code>.gitignore</code> to keep local state and personal configuration
+    files out of Git.
+</p>
 
-    <p>
-        I also learned that <code>tofu plan</code> is one of the most useful
-        parts of the workflow. It lets me see what OpenTofu wants to change
-        before I actually apply the change. This is especially important when
-        the plan says that a resource will be replaced.
-    </p>
+<p>
+    I think manual server setup can still make sense when a quick one-time
+    server is needed or when learning the basic steps. However, for
+    infrastructure that needs to be reproduced, changed or maintained,
+    Infrastructure as Code is more useful because the desired setup is
+    written down and can be reused.
+</p>
 
-    <p>
-        Overall, Week 7 helped me understand the practical difference between
-        manual infrastructure and Infrastructure as Code. Week 1 taught me
-        how to create and configure a VPS, while Week 7 taught me how to
-        describe that infrastructure so that it can be checked, changed and
-        recreated more systematically.
-    </p>
+<p>
+    Overall, Week 7 helped me understand that Infrastructure as Code is not
+    only about creating a VM. It is also about describing dependencies,
+    controlling changes, keeping configuration reproducible and checking
+    what OpenTofu plans to change before applying it.
+</p>
+
+<p>
+    One thing I noticed during the destroy and rebuild experiment
+    was that the private IP changed to <strong>192.168.1.194</strong>,
+    while the public IP remained <strong>128.214.255.177</strong>.
+    OpenTofu destroyed all 7 managed resources and recreated all 7
+    successfully. Although the floating IP resource was destroyed and
+    recreated, cPouta allocated the same public IP address again.
+    The webpage took about two minutes to work after the rebuild while
+    the VM and its startup configuration finished. This helped me
+    understand that the private IP can change while the public IP
+    can remain the same after a rebuild.
+</p>
+
+
+    <div class="info-box">
+
+        <strong>When each approach makes sense</strong>
+
+        <p>
+            Manual setup can make sense for a quick one-time server, for example
+            when I am testing something or learning how a server works. It can be
+            faster for a small task because I do not need to write configuration
+            files first.
+        </p>
+
+        <p>
+            Infrastructure as Code makes more sense when infrastructure needs to
+            be created repeatedly, shared with others, changed safely or rebuilt
+            later. In my Week 7 project, OpenTofu made it possible to destroy and
+            rebuild the infrastructure from the same configuration. It also made
+            the intended settings easier to document and review.
+        </p>
+
+    </div>
 
 </section>
 
@@ -1333,7 +1810,9 @@ footer {
         through the public floating IP.
     </p>
 
-    <p>The final webpage can be opened here:</p>
+    <p>
+        The final webpage can be opened here:
+    </p>
 
     <p>
         <a href="http://128.214.255.177/" target="_blank">
@@ -1345,19 +1824,29 @@ footer {
 
         <div class="slide-image-container">
 
-            <img id="finalSlide" src="screenshots/final-screenshotyayy.png" alt="Final Week 7 webpage">
+            <img id="finalSlide"
+                 src="screenshots/final-screenshotyayyyy.png"
+                 alt="Final Week 7 webpage">
 
         </div>
 
-        <div class="caption" id="finalCaption">Final working Week 7 webpage</div>
+        <div class="caption" id="finalCaption">
+            Final working Week 7 webpage
+        </div>
 
         <div class="slide-controls">
 
-            <button onclick="previousSlide('final')">← Previous</button>
+            <button onclick="previousSlide('final')">
+                ← Previous
+            </button>
 
-            <span class="slide-counter" id="finalCounter">Screenshot 1 of 2</span>
+            <span class="slide-counter" id="finalCounter">
+                Screenshot 1 of 2
+            </span>
 
-            <button onclick="nextSlide('final')">Next →</button>
+            <button onclick="nextSlide('final')">
+                Next →
+            </button>
 
         </div>
 
@@ -1409,7 +1898,6 @@ footer {
 
 </section>
 
-
 </main>
 
 </div>
@@ -1417,7 +1905,8 @@ footer {
 <footer>
 
     Cloud Services - Week 7<br>
-    Infrastructure as Code with OpenTofu
+
+    Infrastructure as Code with Terraform & OpenTofu
 
 </footer>
 
@@ -1442,29 +1931,39 @@ function showWeek(weekId, button) {
     button.classList.add("active");
 
     window.scrollTo({
+
         top: 0,
+
         behavior: "smooth"
+
     });
 
 }
+
 const slides = {
 
     setup: {
 
         images: [
+
             "screenshots/tofu-init.png",
             "screenshots/tofu-validate.png",
             "screenshots/tofu-plan.png",
             "screenshots/tofu-apply.png",
-            "screenshots/tofu-state-output-show.png"
+            "screenshots/tofu-state-output-show.png",
+            "screenshots/tofu-output.png"
+
         ],
 
         captions: [
+
             "OpenTofu initialization",
             "OpenTofu validation",
             "OpenTofu plan",
             "OpenTofu apply",
-            "OpenTofu state and output"
+            "OpenTofu state and output",
+            "OpenTofu apply outputs"
+
         ],
 
         current: 0
@@ -1474,17 +1973,23 @@ const slides = {
     network: {
 
         images: [
+
             "screenshots/instance-info.png",
+            "screenshots/floating-ip.png",
             "screenshots/key-pair.png",
             "screenshots/port80working.png",
             "screenshots/status-200.png"
+
         ],
 
         captions: [
+
             "VM instance information",
+            "Floating IP information",
             "SSH key pair information",
             "HTTP port 80 test",
             "HTTP status 200"
+
         ],
 
         current: 0
@@ -1494,17 +1999,21 @@ const slides = {
     apache: {
 
         images: [
+
             "screenshots/apache-active.png",
             "screenshots/page-working.png",
             "screenshots/status-200.png",
             "screenshots/final-screenshotyayyyy.png"
+
         ],
 
         captions: [
+
             "Apache service is active",
             "Week 7 webpage working",
             "HTTP status 200",
             "Final working webpage"
+
         ],
 
         current: 0
@@ -1514,15 +2023,19 @@ const slides = {
     experiment1: {
 
         images: [
+
             "screenshots/change1.png",
             "screenshots/change2-upper.png",
             "screenshots/change2-lower.png"
+
         ],
 
         captions: [
+
             "Cloud-init change causing VM replacement",
             "Security group change plan",
             "Security group in-place update"
+
         ],
 
         current: 0
@@ -1532,13 +2045,17 @@ const slides = {
     experiment2: {
 
         images: [
+
             "screenshots/apply-expirement2.png",
             "screenshots/apply-expirement2.1.png"
+
         ],
 
         captions: [
+
             "Manual configuration drift test",
             "OpenTofu detected the drift"
+
         ],
 
         current: 0
@@ -1548,15 +2065,19 @@ const slides = {
     experiment3: {
 
         images: [
+
             "screenshots/expirement3-destroy.png",
             "screenshots/expirement3-rebuild.png",
             "screenshots/expirement3-pageworking.png"
+
         ],
 
         captions: [
+
             "tofu destroy",
             "tofu apply rebuild",
             "Webpage working after rebuild"
+
         ],
 
         current: 0
@@ -1566,11 +2087,15 @@ const slides = {
     security: {
 
         images: [
+
             "screenshots/gitignore.png"
+
         ],
 
         captions: [
+
             "Git ignore configuration"
+
         ],
 
         current: 0
@@ -1580,13 +2105,17 @@ const slides = {
     problems: {
 
         images: [
+
             "screenshots/expirement3-pageworking.png",
             "screenshots/status-200.png"
+
         ],
 
         captions: [
+
             "Webpage working after the rebuild",
             "HTTP status 200"
+
         ],
 
         current: 0
@@ -1596,19 +2125,22 @@ const slides = {
     final: {
 
         images: [
+
             "screenshots/final-screenshotyayyyy.png",
             "screenshots/status-200.png"
+
         ],
 
         captions: [
+
             "Final working Week 7 webpage",
             "HTTP status 200"
+
         ],
 
         current: 0
 
     }
-
 
 };
 
@@ -1661,6 +2193,34 @@ function previousSlide(name) {
     updateSlide(name);
 
 }
+
+window.addEventListener("load", function() {
+
+    Object.values(slides).forEach(function(slideshow) {
+
+        slideshow.images.forEach(function(imagePath) {
+
+            const img = new Image();
+
+            img.onload = function() {
+
+                console.log("Loaded:", imagePath);
+
+            };
+
+            img.onerror = function() {
+
+                console.log("Could not load:", imagePath);
+
+            };
+
+            img.src = imagePath;
+
+        });
+
+    });
+
+});
 
 </script>
 

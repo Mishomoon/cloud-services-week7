@@ -1,0 +1,8 @@
+instance_name       = "cloud-services-week7"
+image_name          = "Ubuntu-26.04"
+flavor_name         = "standard.large"
+keypair_name        = "cloud-services-week7-iac-ed25519"
+network_name        = "project_2020447"
+
+ssh_public_key_path = "~/.ssh/cloud-services-week7.pub"
+ssh_allowed_cidr    = "193.210.195.250/32"
